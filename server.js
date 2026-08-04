@@ -1,5 +1,5 @@
 const express = require('express');
-const { OpenAI } = require('openai');
+const { GoogleGenerativeAI } = require('@google/generative-ai');
 const sqlite3 = require('sqlite3').verbose();
 const cors = require('cors');
 const path = require('path');
@@ -10,20 +10,15 @@ app.use(express.json());
 app.use(cors());
 
 const PORT = process.env.PORT || 3001;
-const BASE_URL = 'https://agentrouter.org/v1';
-const CLAUDE_MODEL = process.env.CLAUDE_MODEL || 'claude-opus-5-20250929';
-const CREDITS_PER_CALL = parseFloat(process.env.CREDITS_PER_CALL) || 0.50;
-
-const apiKey = process.env.AGENTROUTER_API_KEY;
-if (!apiKey) {
-  console.error('FATAL: AGENTROUTER_API_KEY is not set in .env');
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+if (!GEMINI_API_KEY) {
+  console.error('FATAL: GEMINI_API_KEY is not set in .env');
   process.exit(1);
 }
 
-const client = new OpenAI({
-  apiKey: apiKey,
-  baseURL: BASE_URL,
-});
+const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+const MODEL = process.env.GEMINI_MODEL || 'gemini-2.0-flash';
+const CREDITS_PER_CALL = parseFloat(process.env.CREDITS_PER_CALL) || 0.50;
 
 const dbPath = path.join(__dirname, 'database', 'tellink.db');
 const db = new sqlite3.Database(dbPath, (err) => {
@@ -152,37 +147,29 @@ app.post('/api/chat', async (req, res) => {
       return res.status(500).json({ error: 'Company not found for this customer' });
     }
 
-    const systemPrompt = SYSTEM_PROMPT_TEMPLATE(company);
-    const messages = [
-      { role: 'system', content: systemPrompt },
-      { role: 'user', content: question.trim() },
-    ];
-
-    const stream = await client.chat.completions.create({
-      model: CLAUDE_MODEL,
-      messages: messages,
-      stream: true,
-    });
+    const model = genAI.getGenerativeModel({ model: MODEL });
+    const chat = model.startChat({ history: [] });
 
     res.setHeader('Content-Type', 'text/event-stream');
     res.setHeader('Cache-Control', 'no-cache');
     res.setHeader('Connection', 'keep-alive');
 
     let fullReply = '';
-    for await (const chunk of stream) {
-      const delta = chunk.choices[0].delta.content;
+    const result = await chat.sendMessageStream(question.trim());
+    for await (const chunk of result.stream) {
+      const delta = chunk.text();
       if (delta) {
         fullReply += delta;
         res.write('data: ' + JSON.stringify({ content: delta }) + '\n\n');
       }
     }
 
-    await deductCredits(customerId, CLAUDE_MODEL, CREDITS_PER_CALL);
+    await deductCredits(customerId, MODEL, CREDITS_PER_CALL);
 
     res.write('data: [DONE]\n\n');
     res.end();
 
-    console.log(`Chat: customer=${customerId} model=${CLAUDE_MODEL} cost=$${CREDITS_PER_CALL.toFixed(2)}`);
+    console.log(`Chat: customer=${customerId} model=${MODEL} cost=$${CREDITS_PER_CALL.toFixed(2)}`);
   } catch (error) {
     console.error('Chat error:', error.message);
     if (!res.headersSent) {
@@ -208,7 +195,7 @@ app.get('/api/customers', (req, res) => {
 });
 
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', model: CLAUDE_MODEL, creditsPerCall: CREDITS_PER_CALL });
+  res.json({ status: 'ok', model: MODEL, creditsPerCall: CREDITS_PER_CALL });
 });
 
 app.use(express.static(path.join(__dirname, 'src', 'web', 'dist')));
@@ -219,7 +206,7 @@ app.get('*', (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`TelLink Chatbot server running on port ${PORT}`);
-  console.log(`Claude model: ${CLAUDE_MODEL}`);
+  console.log(`Gemini model: ${MODEL}`);
   console.log(`Credits per call: $${CREDITS_PER_CALL.toFixed(2)}`);
 });
 
