@@ -3,11 +3,16 @@
   "version": "1.0.0",
   "description": "TelLink AI-powered customer support chatbot with Agent Router",
   "main": "server.js",
+  "homepage": "https://comradeonboard.github.io/agentrouter-chatbot",
+  "homepage": "https://comradeonboard.github.io/agentrouter-chatbot",
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js",
     "init-db": "node database/setup.js",
-    "install-all": "npm install && cd src/web && npm install && cd ../mobile && npm install"
+    "install-all": "npm install && cd src/web && npm install && cd ../mobile && npm install",
+    "build": "cd src/web && npm run build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d src/web/dist"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -15,5 +20,8 @@
     "express": "^4.19.2",
     "openai": "^4.52.0",
     "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.3.0"
   }
 }
