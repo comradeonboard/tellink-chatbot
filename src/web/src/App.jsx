@@ -6,9 +6,12 @@ function App() {
 
   return (
     <div style={{ maxWidth: 800, margin: '0 auto', padding: 20, fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif' }}>
-      <header style={{ background: '#1a1a2e', color: '#fff', padding: '16px 24px', borderRadius: 8, marginBottom: 20 }}>
-        <h1 style={{ margin: 0, fontSize: 22 }}>TelLink Customer Support</h1>
-        <p style={{ margin: '4px 0 0', opacity: 0.7, fontSize: 14 }}>AI-Powered Assistance</p>
+      <header style={{ background: '#1a1a2e', color: '#fff', padding: '16px 24px', borderRadius: 8, marginBottom: 20, display: 'flex', alignItems: 'center', gap: 12 }}>
+        <img src="/favicon.svg" alt="TelLink Logo" style={{ width: 36, height: 36 }} />
+        <div>
+          <h1 style={{ margin: 0, fontSize: 22 }}>TelLink Customer Support</h1>
+          <p style={{ margin: '4px 0 0', opacity: 0.7, fontSize: 14 }}>AI-Powered Assistance</p>
+        </div>
       </header>
       <div style={{ marginBottom: 16 }}>
         <label htmlFor="customer-select" style={{ fontWeight: 600, marginRight: 8 }}>Customer ID:</label>
