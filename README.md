@@ -43,9 +43,9 @@ python -c "from agents import route; route('researcher', 'Explain quantum comput
 
 Available agents: `researcher`, `coder`, `writer`, `analyzer`
 
-## TelLink Customer Support Chatbot
+## TelLink Customer Support Chatbot (Live)
 
-AI-powered customer support chatbot for TelLink Communications.
+The web app is deployed at **https://comradeonboard.github.io/agentrouter-chatbot/**
 
 ### Backend (Node.js/Express)
 
@@ -85,10 +85,9 @@ npm start
 
 | Variable | Description | Default |
 |---|---|---|
-| `AGENTROUTER_API_KEY` | Your AgentRouter API token | — |
-| `AR_MODEL` | Default model for CLI | `gpt-4o` |
+| `GEMINI_API_KEY` | Your Gemini API token | — |
+| `GEMINI_MODEL` | Gemini model for support chatbot | `gemini-2.0-flash` |
 | `PORT` | Express server port | `3001` |
-| `CLAUDE_MODEL` | Claude model for support chatbot | `claude-opus-5-20250929` |
 | `CREDITS_PER_CALL` | Credits deducted per API call | `0.50` |
 
 ## Project Structure
@@ -110,10 +109,10 @@ agentrouter-chatbot/
 │   │   ├── vite.config.js
 │   │   ├── index.html
 │   │   └── src/
-│   │       ├── App.js
+│   │       ├── App.jsx
 │   │       ├── main.jsx
 │   │       └── components/
-│   │           └── Chat.js
+│   │       └── Chat.jsxx
 │   └── mobile/          React Native mobile app
 │       ├── package.json
 │       ├── App.js
