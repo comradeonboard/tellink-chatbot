@@ -100,6 +100,12 @@ function Chat({ customerId }) {
       overflow: 'hidden',
       background: '#fff',
       boxShadow: '0 2px 12px rgba(0,0,0,0.1)',
+      width: '100%',
+      maxWidth: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      height: '70vh',
+      minHeight: 400,
     }}>
       <div style={{
         background: '#1a1a2e',
@@ -107,20 +113,21 @@ function Chat({ customerId }) {
         padding: '12px 16px',
         fontSize: 15,
         fontWeight: 600,
+        flexShrink: 0,
       }}>
         TelLink Support Chat
       </div>
       <div style={{
-        height: 400,
+        flex: 1,
         overflowY: 'auto',
-        padding: 16,
+        padding: 12,
         display: 'flex',
         flexDirection: 'column',
-        gap: 10,
+        gap: 8,
         background: '#f9f9fb',
       }}>
         {messages.length === 0 && !loading && (
-          <div style={{ color: '#888', textAlign: 'center', marginTop: 40, fontSize: 14 }}>
+          <div style={{ color: '#888', textAlign: 'center', marginTop: 'auto', marginBottom: 'auto', fontSize: 14 }}>
             Ask TelLink a question about your account, services, or policies.
           </div>
         )}
@@ -133,10 +140,11 @@ function Chat({ customerId }) {
               color: msg.role === 'user' ? '#fff' : '#333',
               padding: '10px 14px',
               borderRadius: 12,
-              maxWidth: '80%',
+              maxWidth: '85%',
               fontSize: 14,
               lineHeight: 1.5,
               boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
+              wordWrap: 'break-word',
             }}
           >
             {msg.content}
@@ -158,7 +166,7 @@ function Chat({ customerId }) {
         <div ref={chatEndRef} />
       </div>
       {error && (
-        <div style={{ padding: '8px 16px', background: '#fff3f3', color: '#c0392b', fontSize: 13, borderTop: '1px solid #fdd' }}>
+        <div style={{ padding: '8px 16px', background: '#fff3f3', color: '#c0392b', fontSize: 13, borderTop: '1px solid #fdd', flexShrink: 0 }}>
           {error}
         </div>
       )}
@@ -168,6 +176,7 @@ function Chat({ customerId }) {
         padding: 12,
         background: '#fff',
         borderTop: '1px solid #eee',
+        flexShrink: 0,
       }}>
         <input
           value={input}
@@ -182,6 +191,7 @@ function Chat({ customerId }) {
             borderRadius: 8,
             fontSize: 14,
             outline: 'none',
+            minWidth: 0,
           }}
         />
         <button
@@ -197,6 +207,7 @@ function Chat({ customerId }) {
             fontSize: 14,
             fontWeight: 600,
             opacity: loading || !input.trim() ? 0.5 : 1,
+            whiteSpace: 'nowrap',
           }}
         >
           {loading ? 'Sending...' : 'Send'}
