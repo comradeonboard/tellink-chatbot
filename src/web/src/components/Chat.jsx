@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-const API_URL = '/api/chat';
+const API_BASE = window.location.origin;
+const API_URL = `${API_BASE}/api/chat`;
 
 function Chat({ customerId }) {
   const [messages, setMessages] = useState([]);
