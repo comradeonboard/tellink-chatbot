@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "TelLink AI-powered customer support chatbot with Agent Router",
   "main": "server.js",
-  "homepage": "https://comradeonboard.github.io/agentrouter-chatbot",
+  "homepage": "https://comradeonboard.github.io/tellink-chatbot",
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js",

@@ -1,6 +1,6 @@
-# AgentRouter Chatbot + TelLink Customer Support
+# TelLink Customer Support Chatbot
 
-A CLI chatbot, web UI, and **TelLink AI-powered customer support chatbot** powered by AgentRouter — one API key, access to every major LLM.
+A CLI chatbot, web UI, and **TelLink AI-powered customer support chatbot** powered by Google Gemini.
 
 ## Setup
 
@@ -45,7 +45,7 @@ Available agents: `researcher`, `coder`, `writer`, `analyzer`
 
 ## TelLink Customer Support Chatbot (Live)
 
-The web app is deployed at **https://comradeonboard.github.io/agentrouter-chatbot/**
+The web app is deployed at **https://comradeonboard.github.io/tellink-chatbot/**
 
 ### Backend (Node.js/Express)
 
@@ -93,7 +93,7 @@ npm start
 ## Project Structure
 
 ```
-agentrouter-chatbot/
+tellink-chatbot/
 ├── chatbot.py           CLI chatbot with streaming and model switching
 ├── web_ui.py            Flask web UI with streaming responses
 ├── agents.py            Multi-agent routing (researcher, coder, writer, analyzer)

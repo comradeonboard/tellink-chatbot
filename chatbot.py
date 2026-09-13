@@ -74,7 +74,7 @@ def main():
     model = os.environ.get("AR_MODEL", DEFAULT_MODEL)
     messages = []
 
-    print(f"AgentRouter Chatbot — model: {model}")
+    print(f"TelLink Chatbot — model: {model}")
     print("Commands: /models, /switch <num>, /clear, /quit\n")
 
     while True:
